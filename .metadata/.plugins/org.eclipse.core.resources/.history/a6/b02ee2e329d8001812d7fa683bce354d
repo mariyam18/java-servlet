@@ -1,0 +1,64 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<%
+ try{
+	 String url = "jdbc:mysql://localhost:3306/rest";
+		String user = "root";
+		String pass = "root";
+	
+	 Class.forName("com.mysql.jdbc.Driver");
+	Connection con = DriverManager.getConnection(url, user, pass);
+	Statement st = con.createStatement();
+    ResultSet rs;
+   
+	if ((session.getAttribute("user") == null) || (session.getAttribute("user") == "")) 
+    {	%>
+     <span style="font-size:1.30em; color:black; font-weight:bold;text-align:center;display:block;padding:20px;position: absolute;top: 2070px;left: 770px;">You are not logged in</br>
+     <a href="login.jsp">Please Login</a>
+     </span>
+	
+    	<% 
+  
+		     String fetch="select * from about";
+
+			PreparedStatement fet = ((java.sql.Connection) con).prepareStatement(fetch);
+
+			ResultSet feed = fet.executeQuery();
+			System.out.println("hii");
+			%>
+			<html>
+			<body>
+			
+			<h3 id="detail">*******************Your booking details*************************</h3>
+			
+			<table id=disp>
+				<tr>
+					<td><h4>EMAIL</h4></td>
+				 	<td><h4>SUBJECT</h4></td>
+				  	<td><h4>FEEDBACK</h4></td>
+				  	</tr>
+				  	
+				  	<% 
+					System.out.println("bye");
+
+			while(feed.next()) 
+			{
+			out.println("<tr><td>"+feed.getString(1)+"</td> <td>"+feed.getString(2)+"</td> <td>"+feed.getString(3)+"</td></tr>");
+			
+			}
+			%>
+			
+			</table>
+			</body>
+			</html>
+			<%   
+			
+

@@ -1,0 +1,91 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<title>Register/Login</title>
+	<link rel="stylesheet" type="text/css" href="rest.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+</head>
+<body>
+
+	 <h1 id="grill">Grill And Chill Restaurant</h1>
+	<img src="img/logo.jpg" id="img"></img>
+    	 <nav id="menu">
+  <label for="tm" id="toggle-menu">Restaurant <span class="drop-icon"></span></label>
+  <input type="checkbox" id="tm">
+  <ul class="main-menu clearfix">
+    <li><a href="rest2.jsp" style="text-decoration: none;">Home</a></li>
+    <li><a href="login.jsp" style="text-decoration: none;">Login 
+        <span class="drop-icon"></span>
+        <label title="Toggle Drop-down" class="drop-icon" for="sm1"></label>
+      </a>
+      <input type="checkbox" id="sm1">
+      <ul class="sub-menu">
+        <li><a href="logout.jsp" style="text-decoration: none;">Logout</a></li>
+       
+
+      </ul>
+    </li>
+            <li><a href="menudb.jsp" style="text-decoration: none;">Menu</a></li>
+            <li><a href="online.jsp" style="text-decoration: none;">Reservation</a></li>
+    <li><a href="about.jsp" style="text-decoration: none;">About</a></li>
+
+  </ul>
+</nav>
+	<div class="slideshow">
+	<hr>
+	<img src ="img/citizen6.jpg"  id="slideimage">
+	</div>
+	<script type="text/javascript" src="Bootstrap/js/bootstrap.js"></script>
+	
+	<div class="register">
+	<form  action="register" method="post" onSubmit="return validation()" >
+		<div >
+		<h3 id="form">Registration Form</h3>
+		
+		<label >Name:</label>
+		<input type="text" name="name" class="form-input" id="name"/><br>
+		<br>
+				<label>Gender:</label>
+		<input type="radio" name="gender" id="male" value="Male" class="form-input" required="required"/>
+		<label for="male">Male</label>
+		<input type="radio" name="gender" id="female" value="Female" class="form-input" required="required"/>
+		<label for="female">Female</label><br><br>
+		
+		
+		<div>
+		<label for="address" id="add">Address: </label>
+		<textarea cols="15" rows="4" name="address" id="address" class="form-input" required="required"></textarea><br>
+		
+		</div>
+		<span class="req" class="text-danger">*</span>
+		<label >Username:</label>
+		<input type="text" name="username" placeholder="Username" id="user" class="form-input" /><br>
+		<span class="req" class="text-danger">*</span>
+		
+		<label >Password:</label>
+		<input type="password" name="password" placeholder="Password"  id="pass" class="form-input" required="required"><br>
+		
+		<label >C password:</label>
+		<input type="password" name="c_pass" placeholder="Password"  id="cpass" class="form-input" required="required"><br>
+	
+		<label id="con">Contact:</label>
+		<input type="text" name="mobile" id="mobile"><br>
+		
+		
+		
+		<input type="submit" name="sub_btn" value="submit" id="submit">
+		<input type="Reset" name="Reset" value="Reset" id="Reset">
+
+		</div>
+		
+</form>
+</div>
+<script type="text/javascript" src="rest.js"></script>
+</body>
+</html>

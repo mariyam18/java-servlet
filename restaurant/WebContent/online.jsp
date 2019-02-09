@@ -1,0 +1,212 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%@page import="java.sql.*"%>
+<%@page import="java.io.*"%>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Restaurant Management System</title>
+	<link rel="stylesheet" type="text/css" href="rest.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style type="text/css">
+  
+  table,tr,td{
+
+    border: 1px solid black;
+    border-collapse: collapse;
+    margin-top: 20px;
+    padding:10px;
+    width:50%;
+  
+
+
+  
+  
+  }
+  
+  #detail{
+  
+  font-size:20px;
+  text-align:center;
+  margin-top:50px;
+  margin-bottom:10px;
+  }
+  </style>
+	 </head>
+    <body>
+    
+
+  <h1 id="grill">Grill And Chill Restaurant</h1>
+  <img src="img/logo.jpg" id="img"></img>
+  	 <nav id="menu">
+  <label for="tm" id="toggle-menu">Restaurant <span class="drop-icon"></span></label>
+  <input type="checkbox" id="tm">
+  <ul class="main-menu clearfix">
+    <li><a href="rest2.jsp" style="text-decoration: none;">Home</a></li>
+    <li><a href="login.jsp" style="text-decoration: none;">Login 
+        <span class="drop-icon"></span>
+        <label title="Toggle Drop-down" class="drop-icon" for="sm1"></label>
+      </a>
+      <input type="checkbox" id="sm1">
+      <ul class="sub-menu">
+        <li><a href="logout.jsp" style="text-decoration: none;">Logout</a></li>
+       
+
+      </ul>
+    </li>
+            <li><a href="menudb.jsp" style="text-decoration: none;">Menu</a></li>
+            <li><a href="online.jsp" style="text-decoration: none;">Reservation</a></li>
+    <li><a href="about.jsp" style="text-decoration: none;">About</a></li>
+
+  </ul>
+</nav>
+  <div class="slideshow">
+  <hr>
+  <img src ="img/grill.jpg"  id="slideimage">
+  </div>
+
+  <h2 class="table">Reserve your table</h2>
+  <form action="online.jsp" method="post">
+  <div class="booknow">
+
+    
+
+     <label for="date" >Date: </label>
+                <input type="date" name="date" id="date" class="form-input" required="required"/><br><br>
+                </div>
+            <div class="control">
+                <label for="time" >Time:</label>
+                <input type="time" id="time" name="time"
+                       min="10:00" max="23:00" required="required" />
+                       <br>
+                <span class="hours">Restaurant hours: 10AM to 11PM</span><br><br>
+            </div>
+            <div class="party">
+                  <label for="size">Party size: </label>
+                  <select name="size" id="size" size="1" class="form-input" required="required">
+                      <option value="">--------</option>
+                      <option value="1">1 Person</option>
+                      <option value="2">2 Person</option>
+                      <option value="3">3 Person</option>
+                      <option value="4">4 Person</option>
+                      <option value="5">5 Person</option>
+                      <option value="6">6 Person</option>
+                  </select>
+
+                  
+                  
+                  </div>
+                  <div >
+                 
+
+<button name="sub_btn" id="book" onClick="submit()">Book Now</button>
+
+
+</div>
+</form>
+<script src="rest.js"></script>
+
+  
+    
+
+
+<%
+	try {
+		String url = "jdbc:mysql://localhost:3306/rest";
+		String user = "root";
+		String pass = "root";
+		 
+		Class.forName("com.mysql.jdbc.Driver");
+		Connection conn = DriverManager.getConnection(url, user, pass);
+	
+	    if ((session.getAttribute("user") == null) || (session.getAttribute("user") == "")) 
+	    {	%>
+	     <span style="font-size:1.30em; color:black; font-weight:bold;text-align:center;display:block;padding:20px;position: absolute;top: 1500px;left: 300px;">You are not logged in</br>
+	     <a href="login.jsp">Please Login</a>
+	     </span>
+		
+	    	
+	  <%   }
+	    else{
+	    	String date = request.getParameter("date");
+			String time = request.getParameter("time");
+			String size = request.getParameter("size");
+			session.getAttribute("user");
+			%>
+			 <span style="font-size:1.30em; color:black; font-weight:bold;text-align:center;display:block;padding:20px;position: absolute;top: 257px;left: 1000px;">Welcome <%=session.getAttribute("user")%></span>
+			
+			<% 
+	    	if(date !=null && time != null && size !=null){
+	    	
+			String query = "insert into online(date,time,size)values(?,?,?)";
+			String fetch = "select * from online ";
+	    	
+		PreparedStatement ps = ((java.sql.Connection) conn).prepareStatement(query);
+		PreparedStatement fet = ((java.sql.Connection) conn).prepareStatement(fetch);
+
+		ps.setString(1, date);
+		ps.setString(2, time);
+		ps.setString(3, size);
+		ps.executeUpdate();
+		//PrintWriter outp = response.getWriter();
+
+		//String temp=(String)session.getAttribute("username");
+		//out.println("welcome"+temp);
+	%>
+     	<span style="font-size:1.30em; color:black; font-weight:bold;text-align:center;display:block;padding:20px;position: absolute;top: 1500px;left: 300px;">Thank you!! <%=session.getAttribute("user")%>.. Visit Agian</span>
+<% 
+		ResultSet rs = fet.executeQuery();
+%>
+		<html>
+		<body>
+		
+		<h3 id="detail">*******************Your booking details*************************</h3>
+		
+		<table id=disp>
+			<tr>
+				<td><h4>DATE</h4></td>
+			 	<td><h4>TIME</h4></td>
+			  	<td><h4>SIZE</h4></td>
+			  	</tr>
+			  	
+			  	<% 
+		while(rs.next()) 
+		{
+		out.println("<tr><td>"+rs.getString(1)+"</td> <td>"+rs.getString(2)+"</td> <td>"+rs.getString(3)+"</td></tr>");
+		
+		}
+		%>
+		</table>
+		</body>
+		</html>
+		<%    
+		
+		}
+		
+		
+	    }		
+	
+}
+catch(NullPointerException e){
+    e.printStackTrace();
+}
+
+		
+
+
+
+%>
+
+
+<footer>    
+       <div class="copy">
+      &copy; 2018 | <a href="#">Privacy Policy</a> <br> Website   designed by MMA
+      </div>
+  
+ 
+</footer>
+
+  
+</body>
+</html>
